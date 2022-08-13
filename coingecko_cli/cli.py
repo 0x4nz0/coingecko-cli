@@ -20,6 +20,24 @@ def ping():
 
 
 @app.command()
+def price(
+    ids: str,
+    vs_currencies: str,
+    include_market_cap: str = "false",
+    include_24hr_vol: str = "false",
+    include_24hr_change: str = "false",
+    include_last_updated_at: str = "false",
+):
+    """
+    Get the current price of any cryptocurrencies in any other supported currencies that you need
+    """
+    r = httpx.get(
+        f"https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies={vs_currencies}&include_market_cap={include_market_cap}&include_24hr_vol={include_24hr_vol}&include_24hr_change={include_24hr_change}&include_last_updated_at={include_last_updated_at}"
+    ).json()
+    console.print(r)
+
+
+@app.command()
 def supported_vs_currencies():
     """
     List of supported_vs_currencies
