@@ -1,5 +1,6 @@
 import httpx
 from rich.console import Console
+from rich.columns import Columns
 from rich.table import Table
 from typer import Typer
 
@@ -16,6 +17,17 @@ def ping():
     """
     r = httpx.get("https://api.coingecko.com/api/v3/ping").json()["gecko_says"]
     console.print(r)
+
+
+@app.command()
+def supported_vs_currencies():
+    """
+    List of supported_vs_currencies
+    """
+    r = httpx.get(
+        "https://api.coingecko.com/api/v3/simple/supported_vs_currencies"
+    ).json()
+    console.print(Columns([f"- [yellow]{currency}" for currency in r]))
 
 
 @app.command()
