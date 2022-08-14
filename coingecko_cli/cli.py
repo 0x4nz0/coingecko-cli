@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.columns import Columns
 from rich.table import Table
 from typer import Typer
-
+from typer import Option
 
 console = Console()
 
@@ -23,16 +23,16 @@ def ping():
 def price(
     ids: str,
     vs_currencies: str,
-    include_market_cap: str = "false",
-    include_24hr_vol: str = "false",
-    include_24hr_change: str = "false",
-    include_last_updated_at: str = "false",
+    include_market_cap: bool = Option(False, "--market-cap"),
+    include_24hr_vol: bool = Option(False, "--24hr-vol"),
+    include_24hr_change: bool = Option(False, "--24hr-change"),
+    include_last_updated_at: bool = Option(False, "--last-updated-at"),
 ):
     """
     Get the current price of any cryptocurrencies in any other supported currencies that you need
     """
     r = httpx.get(
-        f"https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies={vs_currencies}&include_market_cap={include_market_cap}&include_24hr_vol={include_24hr_vol}&include_24hr_change={include_24hr_change}&include_last_updated_at={include_last_updated_at}"
+        f"https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies={vs_currencies}&include_market_cap={str(include_market_cap).lower()}&include_24hr_vol={str(include_24hr_vol).lower()}&include_24hr_change={str(include_24hr_change).lower()}&include_last_updated_at={str(include_last_updated_at).lower()}"
     ).json()
     console.print(r)
 
