@@ -55,6 +55,19 @@ def supported_vs_currencies():
 
 
 @app.command()
+def coins_list():
+    """
+    List all supported coins with id, name and symbol (no pagination required)
+    """
+    r = httpx.get(f"{API_BASE_URL}/coins/list").json()
+    table = Table("id", "symbol", "name")
+    for coin in r:
+        _id, symbol, name = coin.values()
+        table.add_row(_id, symbol, name)
+    console.print(table)
+
+
+@app.command()
 def trending():
     """
     Top-7 trending coins on CoinGecko as searched by users in the last 24 hours (Ordered by most popular first)
