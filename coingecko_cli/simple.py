@@ -21,7 +21,8 @@ def price(
     include_last_updated_at: bool = Option(False, "--last-updated-at"),
 ):
     """
-    Get the current price of any cryptocurrencies in any other supported currencies that you need
+    Get the current price of any cryptocurrencies in any other supported
+    currencies that you need
     """
     params = {
         "ids": ids,
@@ -32,6 +33,32 @@ def price(
         "include_last_updated_at": str(include_last_updated_at).lower(),
     }
     r = httpx.get(f"{API_BASE_URL}/simple/price", params=params).json()
+    console.print(r)
+
+
+@app.command()
+def token_price(
+    id: str,
+    contract_addresses: str,
+    vs_currencies: str,
+    include_market_cap: bool = Option(False, "--market-cap"),
+    include_24hr_vol: bool = Option(False, "--24hr-vol"),
+    include_24hr_change: bool = Option(False, "--24hr-change"),
+    include_last_updated_at: bool = Option(False, "--last-updated-at"),
+):
+    """
+    Get current price of tokens (using contract addresses) for a given platform
+    in any other currency that you need
+    """
+    params = {
+        "contract_addresses": contract_addresses,
+        "vs_currencies": vs_currencies,
+        "include_market_cap": str(include_market_cap).lower(),
+        "include_24hr_vol": str(include_24hr_vol).lower(),
+        "include_24hr_change": str(include_24hr_change).lower(),
+        "include_last_updated_at": str(include_last_updated_at).lower(),
+    }
+    r = httpx.get(f"{API_BASE_URL}/simple/token_price/{id}", params=params).json()
     console.print(r)
 
 
