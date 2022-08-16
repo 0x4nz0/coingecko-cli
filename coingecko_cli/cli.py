@@ -12,7 +12,7 @@ app.add_typer(simple.app, name="simple")
 app.add_typer(coins.app, name="coins")
 app.add_typer(search.app, name="search")
 app.add_typer(categories.app, name="categories")
-app.add_typer(asset_platforms.app, name="asset_platforms")
+app.add_typer(asset_platforms.app, name="asset-platforms")
 app.add_typer(global_data.app, name="global")
 
 
