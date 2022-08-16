@@ -40,7 +40,22 @@ def market_data(order: Order = Order.market_cap_desc):
     """
     params = {"order": order.value}
     r = httpx.get(f"{API_BASE_URL}/coins/categories", params=params).json()
-    console.print(r)
+    table = Table("id", "name", "market_cap", "change_24h", "volume_24h")
+    for coin in r:
+        (
+            _id,
+            name,
+            market_cap,
+            market_cap_change_24h,
+            _,
+            _,
+            volume_24h,
+            _,
+        ) = coin.values()
+        table.add_row(
+            _id, name, str(market_cap), str(market_cap_change_24h), str(volume_24h)
+        )
+    console.print(table)
 
 
 if __name__ == "__main__":
