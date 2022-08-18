@@ -166,5 +166,15 @@ def market_chart_range(
     console.print(r)
 
 
+@app.command()
+def ohlc(id: str, vs_currency: str, days: int = Argument(..., min=1, max=365)):
+    """
+    Get coin's OHLC
+    """
+    params = {"vs_currency": vs_currency, "days": days}
+    r = httpx.get(f"{API_BASE_URL}/coins/{id}/ohlc", params=params).json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
