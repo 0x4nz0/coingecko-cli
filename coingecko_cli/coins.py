@@ -11,7 +11,7 @@ console = Console()
 app = Typer()
 
 
-class Order(str, Enum):
+class MarketOrder(str, Enum):
     gecko_desc = "gecko_desc"
     gecko_asc = "gecko_asc"
     market_cap_desc = "market_cap_desc"
@@ -20,6 +20,12 @@ class Order(str, Enum):
     volume_desc = "volume_desc"
     id_asc = "id_asc"
     id_desc = "id_desc"
+
+
+class TickerOrder(str, Enum):
+    trust_score_desc = "trust_score_desc"
+    trust_score_asc = "trust_score_asc"
+    volume_desc = "volume_desc"
 
 
 @app.command()
@@ -40,7 +46,7 @@ def markets(
     vs_currency: str,
     ids: str = Option(""),
     category: str = Option(""),
-    order: Order = Argument(Order.market_cap_desc),
+    order: MarketOrder = Argument(MarketOrder.market_cap_desc),
     per_page: int = Argument(100, min=1, max=250),
     page: int = Argument(1),
     sparkline: bool = Option(False, "--sparkline"),
@@ -85,6 +91,29 @@ def current_data(
         "developer_data": developer_data,
     }
     r = httpx.get(f"{API_BASE_URL}/coins/{id}", params=params).json()
+    console.print(r)
+
+
+@app.command()
+def tickers(
+    id: str,
+    exchange_ids: str = Option(""),
+    include_exchange_logo: bool = Option(False, "--include-exchange-logo"),
+    page: int = Option(1),
+    order: TickerOrder = Option(TickerOrder.trust_score_desc),
+    depth: bool = Option(False, "--depth"),
+):
+    """
+    Get coin tickers (paginated to 100 items)
+    """
+    params = {
+        "exchange_ids": exchange_ids,
+        "include-exchange-logo": include_exchange_logo,
+        "page": str(page),
+        "order": order,
+        "depth": depth,
+    }
+    r = httpx.get(f"{API_BASE_URL}/coins/{id}/tickers", params=params).json()
     console.print(r)
 
 
