@@ -43,8 +43,8 @@ def market_chart_range(
     id: str,
     contract_address: str,
     vs_currency: str,
-    from_date: datetime = Argument(..., formats=["%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"]),
-    to_date: datetime = Argument(..., formats=["%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"]),
+    from_date: datetime = Argument(..., formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"]),
+    to_date: datetime = Argument(..., formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"]),
 ):
     """
     Get historical market data include price, market cap, and 24h volume within
