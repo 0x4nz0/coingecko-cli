@@ -3,6 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer, Argument, Option
 from enum import Enum
+from datetime import datetime
 
 from .utils import API_BASE_URL
 
@@ -114,6 +115,20 @@ def tickers(
         "depth": depth,
     }
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/tickers", params=params).json()
+    console.print(r)
+
+
+@app.command()
+def historical_data(
+    id: str,
+    date: datetime = Argument(..., formats=["%d-%m-%Y"]),
+    localization: bool = Option(True, "--no-localization"),
+):
+    """
+    Get historical data (name, price, market, stats) at a given date for a coin
+    """
+    params = {"date": date.strftime("%d-%m-%Y"), "localization": localization}
+    r = httpx.get(f"{API_BASE_URL}/coins/{id}/history", params=params).json()
     console.print(r)
 
 
