@@ -63,5 +63,30 @@ def markets(
     console.print(r)
 
 
+@app.command()
+def current_data(
+    id: str,
+    localization: bool = Option(True, "--no-localization"),
+    tickers: bool = Option(True, "--no-tickers"),
+    market_data: bool = Option(True, "--no-market-data"),
+    community_data: bool = Option(True, "--no-community-data"),
+    developer_data: bool = Option(True, "--no-developer-data"),
+    sparkline: bool = Option(False, "--sparkline"),
+):
+    """
+    Get current data (name, price, market, ... including exchange tickers)
+    for a coin
+    """
+    params = {
+        "localization": localization,
+        "tickers": tickers,
+        "market_data": market_data,
+        "community_data": community_data,
+        "developer_data": developer_data,
+    }
+    r = httpx.get(f"{API_BASE_URL}/coins/{id}", params=params).json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
