@@ -21,7 +21,10 @@ def info(id: str, contract_address: str):
 
 @app.command()
 def market_chart(
-    id: str, contract_address: str, vs_currency: str, days: int = Argument(..., min=1)
+    id: str,
+    contract_address: str,
+    vs_currency: str,
+    days: int = Argument(..., min=1, max=30),
 ):
     """
     Get historical market data include price, market cap, and 24h volume

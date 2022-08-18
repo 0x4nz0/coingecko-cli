@@ -1,8 +1,7 @@
 import httpx
 from rich.console import Console
 from rich.columns import Columns
-from typer import Typer
-from typer import Option
+from typer import Typer, Option
 
 from .utils import API_BASE_URL
 
