@@ -132,5 +132,16 @@ def historical_data(
     console.print(r)
 
 
+@app.command()
+def market_chart(id: str, vs_currency: str, days: int = Argument(..., min=1, max=30)):
+    """
+    Get historical market data include price, market cap, and 24h volume
+    (granularity auto)
+    """
+    params = {"vs_currency": vs_currency, "days": str(days)}
+    r = httpx.get(f"{API_BASE_URL}/coins/{id}/market_chart", params=params).json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
