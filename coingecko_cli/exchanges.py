@@ -72,5 +72,15 @@ def tickers(
     console.print(r)
 
 
+@app.command()
+def volume_chart(id: str, days: int = Argument(..., min=1, max=30)):
+    """
+    Get volume_chart data for a given exchange
+    """
+    params = {"days": str(days)}
+    r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/volume_chart", params=params).json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
