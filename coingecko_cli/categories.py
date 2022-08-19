@@ -11,7 +11,7 @@ console = Console()
 app = Typer()
 
 
-class Order(str, Enum):
+class MarketOrder(str, Enum):
     market_cap_desc = "market_cap_desc"
     market_cap_asc = "market_cap_asc"
     name_desc = "name_desc"
@@ -34,7 +34,7 @@ def list():
 
 
 @app.command()
-def market_data(order: Order = Order.market_cap_desc):
+def market_data(order: MarketOrder = MarketOrder.market_cap_desc):
     """
     List all categories with market data
     """

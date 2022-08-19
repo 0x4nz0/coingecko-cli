@@ -3,7 +3,16 @@ from rich.console import Console
 from typer import Typer
 
 from .utils import API_BASE_URL
-from . import simple, coins, search, categories, asset_platforms, global_data, contract
+from . import (
+    simple,
+    coins,
+    search,
+    categories,
+    asset_platforms,
+    global_data,
+    contract,
+    exchanges,
+)
 
 console = Console()
 
@@ -15,6 +24,7 @@ app.add_typer(categories.app, name="categories")
 app.add_typer(asset_platforms.app, name="asset-platforms")
 app.add_typer(global_data.app, name="global")
 app.add_typer(contract.app, name="contract")
+app.add_typer(exchanges.app, name="exchanges")
 
 
 @app.command()
