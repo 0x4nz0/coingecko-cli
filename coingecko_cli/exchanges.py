@@ -19,5 +19,14 @@ def list(per_page: int = Argument(100, min=1, max=250), page: int = Argument(1))
     console.print(r)
 
 
+@app.command()
+def markets_list():
+    """
+    List all supported markets id and name (no pagination required)
+    """
+    r = httpx.get(f"{API_BASE_URL}/exchanges/list").json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
