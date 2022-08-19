@@ -28,5 +28,14 @@ def markets_list():
     console.print(r)
 
 
+@app.command()
+def volume(id: str):
+    """
+    Get exchange volume in BTC and tickers
+    """
+    r = httpx.get(f"{API_BASE_URL}/exchanges/{id}").json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
