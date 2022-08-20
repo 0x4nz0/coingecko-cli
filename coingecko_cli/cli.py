@@ -11,6 +11,7 @@ from . import (
     categories,
     exchanges,
     indexes,
+    derivatives,
     exchange_rates,
     search,
     global_data,
@@ -27,6 +28,7 @@ app.add_typer(asset_platforms.app, name="asset-platforms")
 app.add_typer(categories.app, name="categories")
 app.add_typer(exchanges.app, name="exchanges")
 app.add_typer(indexes.app, name="indexes")
+app.add_typer(derivatives.app, name="derivatives")
 app.add_typer(exchange_rates.app, name="exchange-rates")
 app.add_typer(search.app, name="search")
 app.add_typer(global_data.app, name="global")
