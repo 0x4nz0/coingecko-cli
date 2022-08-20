@@ -26,6 +26,16 @@ class ExchangeOrder(str, Enum):
 
 
 @app.command()
+def tickers(include_tickers: TickerOption = TickerOption.unexpired):
+    """
+    List all derivative tickers
+    """
+    params = {"include_tickers": include_tickers.value}
+    r = httpx.get(f"{API_BASE_URL}/derivatives", params=params).json()
+    console.print(r)
+
+
+@app.command()
 def exchanges(
     order: ExchangeOrder = ExchangeOrder.name_desc,
     per_page: int = Option(100),
