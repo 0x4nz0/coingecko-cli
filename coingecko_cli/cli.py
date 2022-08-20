@@ -22,7 +22,7 @@ console = Console()
 
 app = Typer()
 app.add_typer(simple.app, name="simple", help="Check price(s) of cryptocurrency")
-app.add_typer(coins.app, name="coins")
+app.add_typer(coins.app, name="coins", help="Check market data of cryptocurrency")
 app.add_typer(contract.app, name="contract")
 app.add_typer(asset_platforms.app, name="asset-platforms")
 app.add_typer(categories.app, name="categories")
