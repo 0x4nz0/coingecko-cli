@@ -19,5 +19,14 @@ def list(per_page: int = Option(100), page: int = Option(1)):
     console.print(r)
 
 
+@app.command()
+def market_index(market_id: str, id: str):
+    """
+    Get market index by market id and index id
+    """
+    r = httpx.get(f"{API_BASE_URL}/indexes/{market_id}/{id}").json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
