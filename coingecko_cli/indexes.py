@@ -28,5 +28,14 @@ def market_index(market_id: str, id: str):
     console.print(r)
 
 
+@app.command()
+def list_id_name():
+    """
+    List market indexes id and name
+    """
+    r = httpx.get(f"{API_BASE_URL}/indexes/list").json()
+    console.print(r)
+
+
 if __name__ == "__main__":
     app()
