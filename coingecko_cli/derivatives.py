@@ -1,6 +1,6 @@
 import httpx
 from rich.console import Console
-from typer import Typer, Option
+from typer import Typer, Argument, Option
 from enum import Enum
 from typing import Optional
 
@@ -26,7 +26,11 @@ class ExchangeOrder(str, Enum):
 
 
 @app.command()
-def tickers(include_tickers: TickerOption = TickerOption.unexpired):
+def tickers(
+    include_tickers: TickerOption = Option(
+        TickerOption.unexpired, help="To show all or unexpired tickers"
+    )
+):
     """
     List all derivative tickers
     """
@@ -37,20 +41,31 @@ def tickers(include_tickers: TickerOption = TickerOption.unexpired):
 
 @app.command()
 def exchanges(
-    order: ExchangeOrder = ExchangeOrder.name_desc,
-    per_page: int = Option(100),
-    page: int = Option(1),
+    order: Optional[ExchangeOrder] = Option(None, help="Sort results by field"),
+    per_page: Optional[int] = Option(None, help="Total results per page"),
+    page: Optional[int] = Option(None, help="Page through results"),
 ):
     """
     List all derivative exchanges
     """
-    params = {"order": order.value, "per_page": str(per_page), "page": str(page)}
+    params = {}
+    if order is not None:
+        params["order"] = order.value
+    if per_page is not None:
+        params["per_page"] = str(per_page)
+    if page is not None:
+        params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges", params=params).json()
     console.print(r)
 
 
 @app.command()
-def exchange_data(id: str, include_tickers: Optional[TickerOption] = None):
+def exchange_data(
+    id: str = Argument(..., help="Pass the exchange id"),
+    include_tickers: Optional[TickerOption] = Option(
+        None, help="To show all or unexpired tickers"
+    ),
+):
     """
     Show derivative exchange data
     """

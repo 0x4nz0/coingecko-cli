@@ -36,7 +36,9 @@ app.add_typer(
 app.add_typer(categories.app, name="categories", help="Check data of categories")
 app.add_typer(exchanges.app, name="exchanges", help="Check market data of exchanges")
 app.add_typer(indexes.app, name="indexes", help="Check info of market indexes")
-app.add_typer(derivatives.app, name="derivatives")
+app.add_typer(
+    derivatives.app, name="derivatives", help="Check data of derivative exchanges"
+)
 app.add_typer(exchange_rates.app, name="exchange-rates")
 app.add_typer(search.app, name="search")
 app.add_typer(global_data.app, name="global")
