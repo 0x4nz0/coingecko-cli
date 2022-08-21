@@ -11,7 +11,10 @@ app = Typer()
 
 
 @app.command()
-def info(id: str, contract_address: str):
+def coin_info(
+    id: str = Argument(..., help="Asset platform"),
+    contract_address: str = Argument(..., help="Token's contract address"),
+):
     """
     Get coin info from contract address
     """
@@ -21,10 +24,14 @@ def info(id: str, contract_address: str):
 
 @app.command()
 def market_chart(
-    id: str,
-    contract_address: str,
-    vs_currency: str,
-    days: int = Argument(..., min=1, max=30),
+    id: str = Argument(..., help="The id of the platform issuing tokens"),
+    contract_address: str = Argument(..., help="Token's contract address"),
+    vs_currency: str = Argument(
+        ..., help="The target currency of market data (usd, eur, jpy, etc.)"
+    ),
+    days: int = Argument(
+        ..., min=1, max=30, help="Data up to number of days ago (eg. 1,14,30,max)"
+    ),
 ):
     """
     Get historical market data include price, market cap, and 24h volume
@@ -40,11 +47,21 @@ def market_chart(
 
 @app.command()
 def market_chart_range(
-    id: str,
-    contract_address: str,
-    vs_currency: str,
-    from_date: datetime = Argument(..., formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"]),
-    to_date: datetime = Argument(..., formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"]),
+    id: str = Argument(..., help="The id of the platform issuing tokens"),
+    contract_address: str = Argument(..., help="Token's contract address"),
+    vs_currency: str = Argument(
+        ..., help="The target currency of market data (usd, eur, jpy, etc.)"
+    ),
+    from_date: datetime = Argument(
+        ...,
+        formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"],
+        help="From date (eg. 30-12-2017, 30-12-2017T00:00:00)",
+    ),
+    to_date: datetime = Argument(
+        ...,
+        formats=["%d-%m-%Y", "%d-%m-%YT%H:%M:%S"],
+        help="To date (eg. 01-01-2018, 01-02-2018T00:00:00)",
+    ),
 ):
     """
     Get historical market data include price, market cap, and 24h volume within
