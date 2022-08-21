@@ -32,7 +32,7 @@ def list(
     """
     params = {"per_page": str(per_page), "page": str(page)}
     r = httpx.get(f"{API_BASE_URL}/exchanges", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -41,7 +41,7 @@ def markets_list():
     List all supported markets id and name (no pagination required)
     """
     r = httpx.get(f"{API_BASE_URL}/exchanges/list").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -50,7 +50,7 @@ def volume(id: str = Argument(..., help="Pass the exchange id (eg. binance)")):
     Get exchange volume in BTC and tickers
     """
     r = httpx.get(f"{API_BASE_URL}/exchanges/{id}").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -81,7 +81,7 @@ def tickers(
     if page is not None:
         params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/tickers", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -96,7 +96,7 @@ def volume_chart(
     """
     params = {"days": str(days)}
     r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/volume_chart", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

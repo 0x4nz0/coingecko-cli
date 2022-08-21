@@ -1,6 +1,5 @@
 import httpx
 from rich.console import Console
-from rich.columns import Columns
 from typer import Typer, Argument, Option
 
 from .utils import API_BASE_URL
@@ -43,7 +42,7 @@ def price(
         "include_last_updated_at": str(include_last_updated_at).lower(),
     }
     r = httpx.get(f"{API_BASE_URL}/simple/price", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -80,7 +79,7 @@ def token_price(
         "include_last_updated_at": str(include_last_updated_at).lower(),
     }
     r = httpx.get(f"{API_BASE_URL}/simple/token_price/{id}", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -89,7 +88,7 @@ def supported_vs_currencies():
     List of supported_vs_currencies
     """
     r = httpx.get(f"{API_BASE_URL}/simple/supported_vs_currencies").json()
-    console.print(Columns([f"- [yellow]{currency}" for currency in r]))
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

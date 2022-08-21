@@ -36,7 +36,7 @@ def tickers(
     """
     params = {"include_tickers": include_tickers.value}
     r = httpx.get(f"{API_BASE_URL}/derivatives", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -56,7 +56,7 @@ def exchanges(
     if page is not None:
         params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -73,7 +73,7 @@ def exchange_data(
     if include_tickers is not None:
         params["include_tickers"] = include_tickers.value
     r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/{id}", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -82,7 +82,7 @@ def list():
     List all derivative exchanges name and identifier
     """
     r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/list").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

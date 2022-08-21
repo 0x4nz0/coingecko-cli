@@ -19,7 +19,7 @@ def coin_info(
     Get coin info from contract address
     """
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/contract/{contract_address}").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -42,7 +42,7 @@ def market_chart(
         f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/",
         params=params,
     ).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -76,7 +76,7 @@ def market_chart_range(
         f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/range",
         params=params,
     ).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

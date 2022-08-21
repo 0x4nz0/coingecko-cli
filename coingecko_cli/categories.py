@@ -1,6 +1,5 @@
 import httpx
 from rich.console import Console
-from rich.table import Table
 from typer import Typer, Option
 from enum import Enum
 
@@ -26,11 +25,7 @@ def list():
     List all categories
     """
     r = httpx.get(f"{API_BASE_URL}/coins/categories/list").json()
-    table = Table("category_id", "name")
-    for coin in r:
-        category_id, name = coin.values()
-        table.add_row(category_id, name)
-    console.print(table)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -44,22 +39,7 @@ def market_data(
     """
     params = {"order": order.value}
     r = httpx.get(f"{API_BASE_URL}/coins/categories", params=params).json()
-    table = Table("id", "name", "market_cap", "change_24h", "volume_24h")
-    for coin in r:
-        (
-            _id,
-            name,
-            market_cap,
-            market_cap_change_24h,
-            _,
-            _,
-            volume_24h,
-            _,
-        ) = coin.values()
-        table.add_row(
-            _id, name, str(market_cap), str(market_cap_change_24h), str(volume_24h)
-        )
-    console.print(table)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

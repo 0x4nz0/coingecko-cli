@@ -40,8 +40,8 @@ def ping():
     """
     Check API server status
     """
-    r = httpx.get(f"{API_BASE_URL}/ping").json()["gecko_says"]
-    console.print(r)
+    r = httpx.get(f"{API_BASE_URL}/ping").json()
+    console.print_json(data=r)
 
 
 @app.command()
@@ -50,7 +50,7 @@ def asset_platforms():
     List all asset platforms (Blockchain networks)
     """
     r = httpx.get(f"{API_BASE_URL}/asset_platforms").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -59,7 +59,7 @@ def exchange_rates():
     Get BTC-to-Currency exchange rates
     """
     r = httpx.get(f"{API_BASE_URL}/exchange_rates").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -70,7 +70,7 @@ def search(query: str = Argument(..., help="Search string")):
     """
     params = {"query": query}
     r = httpx.get(f"{API_BASE_URL}/search", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -80,7 +80,7 @@ def trending():
     (Ordered by most popular first)
     """
     r = httpx.get(f"{API_BASE_URL}/search/trending").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -92,7 +92,7 @@ def companies_public_treasury(
     (Ordered by total holdings descending)
     """
     r = httpx.get(f"{API_BASE_URL}/companies/public_treasury/{coin_id}").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

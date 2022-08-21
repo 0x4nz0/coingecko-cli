@@ -15,7 +15,7 @@ def data():
     Get cryptocurrency global data
     """
     r = httpx.get(f"{API_BASE_URL}/global").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -24,7 +24,7 @@ def defi():
     Get cryptocurrency global decentralized finance(defi) data
     """
     r = httpx.get(f"{API_BASE_URL}/global/decentralized_finance_defi").json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ def list(
     """
     params = {"include_platform": str(include_platform).lower()}
     r = httpx.get(f"{API_BASE_URL}/coins/list", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -84,7 +84,7 @@ def markets(
     if price_change_percentage is not None:
         params["price_change_percentage"] = price_change_percentage
     r = httpx.get(f"{API_BASE_URL}/coins/markets", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -117,7 +117,7 @@ def coin(
         "developer_data": developer_data,
     }
     r = httpx.get(f"{API_BASE_URL}/coins/{id}", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -146,7 +146,7 @@ def tickers(
     if page is not None:
         params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/tickers", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -166,7 +166,7 @@ def history(
     """
     params = {"date": date.strftime("%d-%m-%Y"), "localization": localization}
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/history", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -188,7 +188,7 @@ def market_chart(
     if interval is not None:
         params["interval"] = interval
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/market_chart", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -221,7 +221,7 @@ def market_chart_range(
         f"{API_BASE_URL}/coins/{id}/market_chart/range",
         params=params,
     ).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 @app.command()
@@ -239,7 +239,7 @@ def ohlc(
     """
     params = {"vs_currency": vs_currency, "days": days}
     r = httpx.get(f"{API_BASE_URL}/coins/{id}/ohlc", params=params).json()
-    console.print(r)
+    console.print_json(data=r)
 
 
 if __name__ == "__main__":
