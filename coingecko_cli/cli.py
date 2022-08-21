@@ -12,7 +12,6 @@ from . import (
     indexes,
     derivatives,
     global_data,
-    companies,
 )
 
 console = Console()
@@ -31,8 +30,9 @@ app.add_typer(indexes.app, name="indexes", help="Check info of market indexes")
 app.add_typer(
     derivatives.app, name="derivatives", help="Check data of derivative exchanges"
 )
-app.add_typer(global_data.app, name="global")
-app.add_typer(companies.app, name="companies")
+app.add_typer(
+    global_data.app, name="global", help="Check global data of cryptocurrency and DeFi"
+)
 
 
 @app.command()
@@ -80,6 +80,18 @@ def trending():
     (Ordered by most popular first)
     """
     r = httpx.get(f"{API_BASE_URL}/search/trending").json()
+    console.print(r)
+
+
+@app.command()
+def companies_public_treasury(
+    coin_id: str = Argument(..., help="Pass the coin id (eg. bitcoin or ethereum)")
+):
+    """
+    Get public companies bitcoin or ethereum holdings
+    (Ordered by total holdings descending)
+    """
+    r = httpx.get(f"{API_BASE_URL}/companies/public_treasury/{coin_id}").json()
     console.print(r)
 
 
