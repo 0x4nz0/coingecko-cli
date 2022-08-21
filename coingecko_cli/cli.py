@@ -28,7 +28,9 @@ app.add_typer(
     name="contract",
     help="Check cryptocurrency info from contract address",
 )
-app.add_typer(asset_platforms.app, name="asset-platforms")
+app.add_typer(
+    asset_platforms.app, name="asset-platforms", help="Check blockchain networks"
+)
 app.add_typer(categories.app, name="categories")
 app.add_typer(exchanges.app, name="exchanges")
 app.add_typer(indexes.app, name="indexes")
