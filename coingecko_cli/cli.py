@@ -1,6 +1,6 @@
 import httpx
 from rich.console import Console
-from typer import Typer
+from typer import Typer, Argument
 
 from .utils import API_BASE_URL
 from . import (
@@ -11,7 +11,6 @@ from . import (
     exchanges,
     indexes,
     derivatives,
-    search,
     global_data,
     companies,
 )
@@ -32,7 +31,6 @@ app.add_typer(indexes.app, name="indexes", help="Check info of market indexes")
 app.add_typer(
     derivatives.app, name="derivatives", help="Check data of derivative exchanges"
 )
-app.add_typer(search.app, name="search")
 app.add_typer(global_data.app, name="global")
 app.add_typer(companies.app, name="companies")
 
@@ -47,6 +45,15 @@ def ping():
 
 
 @app.command()
+def asset_platforms():
+    """
+    List all asset platforms (Blockchain networks)
+    """
+    r = httpx.get(f"{API_BASE_URL}/asset_platforms").json()
+    console.print(r)
+
+
+@app.command()
 def exchange_rates():
     """
     Get BTC-to-Currency exchange rates
@@ -56,11 +63,23 @@ def exchange_rates():
 
 
 @app.command()
-def asset_platforms():
+def search(query: str = Argument(..., help="Search string")):
     """
-    List all asset platforms (Blockchain networks)
+    Search for coins, categories and markets listed on CoinGecko ordered
+    by largest Market Cap first
     """
-    r = httpx.get(f"{API_BASE_URL}/asset_platforms").json()
+    params = {"query": query}
+    r = httpx.get(f"{API_BASE_URL}/search", params=params).json()
+    console.print(r)
+
+
+@app.command()
+def trending():
+    """
+    Top-7 trending coins on CoinGecko as searched by users in the last 24 hours
+    (Ordered by most popular first)
+    """
+    r = httpx.get(f"{API_BASE_URL}/search/trending").json()
     console.print(r)
 
 
