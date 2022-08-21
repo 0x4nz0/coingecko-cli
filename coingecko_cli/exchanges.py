@@ -2,6 +2,7 @@ import httpx
 from rich.console import Console
 from typer import Typer, Argument, Option
 from enum import Enum
+from typing import Optional
 
 from .utils import API_BASE_URL
 
@@ -22,7 +23,10 @@ class TickerDepth(str, Enum):
 
 
 @app.command()
-def list(per_page: int = Argument(100, min=1, max=250), page: int = Argument(1)):
+def list(
+    per_page: int = Option(100, min=1, max=250, help="Total results per page"),
+    page: int = Option(1, help="Page through results"),
+):
     """
     List all exchanges (Active with trading volumes)
     """
@@ -41,7 +45,7 @@ def markets_list():
 
 
 @app.command()
-def volume(id: str):
+def volume(id: str = Argument(..., help="Pass the exchange id (eg. binance)")):
     """
     Get exchange volume in BTC and tickers
     """
@@ -51,29 +55,42 @@ def volume(id: str):
 
 @app.command()
 def tickers(
-    id: str,
-    coin_ids: str = Option(""),
-    include_exchange_logo: bool = Option(False, "--include-exchange-logo"),
-    page: int = Option(1),
-    depth: TickerDepth = Option(TickerDepth.cost_to_move_up_usd),
-    order: TickerOrder = Option(TickerOrder.trust_score_desc),
+    id: str = Argument(..., help="Pass the exchange id (eg. binance"),
+    coin_ids: Optional[str] = Option(None, help="Filter tickers by coin ids"),
+    include_exchange_logo: bool = Option(
+        False, "--include-exchange-logo", help="Flag to show exchange_logo"
+    ),
+    page: Optional[int] = Option(None, help="Page through results"),
+    depth: TickerDepth = Option(
+        TickerDepth.cost_to_move_up_usd, help="Flag to show 2% orderbook depth"
+    ),
+    order: TickerOrder = Option(
+        TickerOrder.trust_score_desc, help="Sort results by field"
+    ),
 ):
     """
     Get exchange tickers (paginated, 100 tickers per page)
     """
     params = {
-        "coin_ids": coin_ids,
         "include_exchange_logo": include_exchange_logo,
-        "page": str(page),
         "depth": depth.value,
         "order": order.value,
     }
+    if coin_ids is not None:
+        params["coin_ids"] = coin_ids
+    if page is not None:
+        params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/tickers", params=params).json()
     console.print(r)
 
 
 @app.command()
-def volume_chart(id: str, days: int = Argument(..., min=1, max=30)):
+def volume_chart(
+    id: str = Argument(..., help="Pass the exchange id (eg. binance"),
+    days: int = Argument(
+        ..., min=1, max=30, help="Data up to number of days ago (eg. 1,14,30)"
+    ),
+):
     """
     Get volume_chart data for a given exchange
     """
