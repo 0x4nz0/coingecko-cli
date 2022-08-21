@@ -35,8 +35,13 @@ def tickers(
     List all derivative tickers
     """
     params = {"include_tickers": include_tickers.value}
-    r = httpx.get(f"{API_BASE_URL}/derivatives", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/derivatives", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -55,8 +60,13 @@ def exchanges(
         params["per_page"] = str(per_page)
     if page is not None:
         params["page"] = str(page)
-    r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -72,8 +82,13 @@ def exchange_data(
     params = {}
     if include_tickers is not None:
         params["include_tickers"] = include_tickers.value
-    r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/{id}", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/{id}", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -81,8 +96,13 @@ def list():
     """
     List all derivative exchanges name and identifier
     """
-    r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/list").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/derivatives/exchanges/list")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
