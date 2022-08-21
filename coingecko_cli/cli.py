@@ -7,12 +7,10 @@ from . import (
     simple,
     coins,
     contract,
-    asset_platforms,
     categories,
     exchanges,
     indexes,
     derivatives,
-    exchange_rates,
     search,
     global_data,
     companies,
@@ -28,18 +26,12 @@ app.add_typer(
     name="contract",
     help="Check cryptocurrency info from contract address",
 )
-app.add_typer(
-    asset_platforms.app,
-    name="asset-platforms",
-    help="Check info of blockchain networks",
-)
 app.add_typer(categories.app, name="categories", help="Check data of categories")
 app.add_typer(exchanges.app, name="exchanges", help="Check market data of exchanges")
 app.add_typer(indexes.app, name="indexes", help="Check info of market indexes")
 app.add_typer(
     derivatives.app, name="derivatives", help="Check data of derivative exchanges"
 )
-app.add_typer(exchange_rates.app, name="exchange-rates")
 app.add_typer(search.app, name="search")
 app.add_typer(global_data.app, name="global")
 app.add_typer(companies.app, name="companies")
@@ -51,6 +43,24 @@ def ping():
     Check API server status
     """
     r = httpx.get(f"{API_BASE_URL}/ping").json()["gecko_says"]
+    console.print(r)
+
+
+@app.command()
+def exchange_rates():
+    """
+    Get BTC-to-Currency exchange rates
+    """
+    r = httpx.get(f"{API_BASE_URL}/exchange_rates").json()
+    console.print(r)
+
+
+@app.command()
+def asset_platforms():
+    """
+    List all asset platforms (Blockchain networks)
+    """
+    r = httpx.get(f"{API_BASE_URL}/asset_platforms").json()
     console.print(r)
 
 
