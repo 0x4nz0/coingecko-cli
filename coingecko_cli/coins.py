@@ -128,7 +128,9 @@ def tickers(
         False, "--include-exchange-logo", help="Flag to show exchange_logo"
     ),
     page: Optional[int] = Option(None, help="Page through results"),
-    order: TickerOrder = Option(TickerOrder.trust_score_desc),
+    order: TickerOrder = Option(
+        TickerOrder.trust_score_desc, help="Sort results by field"
+    ),
     depth: bool = Option(False, "--depth", help="Flag to show 2% orderbook depth"),
 ):
     """

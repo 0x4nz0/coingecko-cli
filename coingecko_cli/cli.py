@@ -31,7 +31,7 @@ app.add_typer(
 app.add_typer(
     asset_platforms.app, name="asset-platforms", help="Check blockchain networks"
 )
-app.add_typer(categories.app, name="categories")
+app.add_typer(categories.app, name="categories", help="Check categories data")
 app.add_typer(exchanges.app, name="exchanges")
 app.add_typer(indexes.app, name="indexes")
 app.add_typer(derivatives.app, name="derivatives")

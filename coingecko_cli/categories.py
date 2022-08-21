@@ -1,7 +1,7 @@
 import httpx
 from rich.console import Console
 from rich.table import Table
-from typer import Typer
+from typer import Typer, Option
 from enum import Enum
 
 from .utils import API_BASE_URL
@@ -34,7 +34,11 @@ def list():
 
 
 @app.command()
-def market_data(order: MarketOrder = MarketOrder.market_cap_desc):
+def market_data(
+    order: MarketOrder = Option(
+        MarketOrder.market_cap_desc, help="Sort results by field"
+    )
+):
     """
     List all categories with market data
     """
