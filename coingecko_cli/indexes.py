@@ -1,6 +1,7 @@
 import httpx
 from rich.console import Console
-from typer import Typer, Option
+from typer import Typer, Argument, Option
+from typing import Optional
 
 from .utils import API_BASE_URL
 
@@ -10,17 +11,27 @@ app = Typer()
 
 
 @app.command()
-def list(per_page: int = Option(100), page: int = Option(1)):
+def list(
+    per_page: Optional[int] = Option(None, help="Total results per page"),
+    page: Optional[int] = Option(None, help="Page through results"),
+):
     """
     List all market indexes
     """
-    params = {"per_page": str(per_page), "page": str(page)}
+    params = {}
+    if per_page is not None:
+        params["per_page"] = str(per_page)
+    if page is not None:
+        params["page"] = str(page)
     r = httpx.get(f"{API_BASE_URL}/indexes", params=params).json()
     console.print(r)
 
 
 @app.command()
-def market_index(market_id: str, id: str):
+def market_index(
+    market_id: str = Argument(..., help="Pass the marked id"),
+    id: str = Argument(..., help="Pass the index id"),
+):
     """
     Get market index by market id and index id
     """
