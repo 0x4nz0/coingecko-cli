@@ -41,8 +41,13 @@ def price(
         "include_24hr_change": str(include_24hr_change).lower(),
         "include_last_updated_at": str(include_last_updated_at).lower(),
     }
-    r = httpx.get(f"{API_BASE_URL}/simple/price", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/simple/price", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -78,8 +83,13 @@ def token_price(
         "include_24hr_change": str(include_24hr_change).lower(),
         "include_last_updated_at": str(include_last_updated_at).lower(),
     }
-    r = httpx.get(f"{API_BASE_URL}/simple/token_price/{id}", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/simple/token_price/{id}", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -87,8 +97,13 @@ def supported_vs_currencies():
     """
     List of supported_vs_currencies
     """
-    r = httpx.get(f"{API_BASE_URL}/simple/supported_vs_currencies").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/simple/supported_vs_currencies")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
