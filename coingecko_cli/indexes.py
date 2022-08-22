@@ -23,8 +23,13 @@ def list(
         params["per_page"] = str(per_page)
     if page is not None:
         params["page"] = str(page)
-    r = httpx.get(f"{API_BASE_URL}/indexes", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/indexes", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -35,8 +40,13 @@ def market_index(
     """
     Get market index by market id and index id
     """
-    r = httpx.get(f"{API_BASE_URL}/indexes/{market_id}/{id}").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/indexes/{market_id}/{id}")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -44,8 +54,13 @@ def list_id_name():
     """
     List market indexes id and name
     """
-    r = httpx.get(f"{API_BASE_URL}/indexes/list").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/indexes/list")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
