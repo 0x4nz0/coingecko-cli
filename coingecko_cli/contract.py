@@ -18,8 +18,13 @@ def coin_info(
     """
     Get coin info from contract address
     """
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}/contract/{contract_address}").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}/contract/{contract_address}")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -38,11 +43,16 @@ def market_chart(
     (granularity auto)
     """
     params = {"vs_currency": vs_currency, "days": str(days)}
-    r = httpx.get(
-        f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/",
-        params=params,
-    ).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(
+            f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/",
+            params=params,
+        )
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -72,11 +82,16 @@ def market_chart_range(
         "from": str(datetime.timestamp(from_date)),
         "to": str(datetime.timestamp(to_date)),
     }
-    r = httpx.get(
-        f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/range",
-        params=params,
-    ).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(
+            f"{API_BASE_URL}/coins/{id}/contract/{contract_address}/market_chart/range",
+            params=params,
+        )
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
