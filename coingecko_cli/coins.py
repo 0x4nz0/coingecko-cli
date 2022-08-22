@@ -41,8 +41,13 @@ def list(
     List all supported coins with id, name and symbol (no pagination required)
     """
     params = {"include_platform": str(include_platform).lower()}
-    r = httpx.get(f"{API_BASE_URL}/coins/list", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/list", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -83,8 +88,13 @@ def markets(
         params["category"] = category
     if price_change_percentage is not None:
         params["price_change_percentage"] = price_change_percentage
-    r = httpx.get(f"{API_BASE_URL}/coins/markets", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/markets", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -116,8 +126,13 @@ def coin(
         "community_data": community_data,
         "developer_data": developer_data,
     }
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -145,8 +160,13 @@ def tickers(
         params["exchange_ids"] = exchange_ids
     if page is not None:
         params["page"] = str(page)
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}/tickers", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}/tickers", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -165,8 +185,13 @@ def history(
     Get historical data (name, price, market, stats) at a given date for a coin
     """
     params = {"date": date.strftime("%d-%m-%Y"), "localization": localization}
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}/history", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}/history", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -187,8 +212,13 @@ def market_chart(
     params = {"vs_currency": vs_currency, "days": str(days)}
     if interval is not None:
         params["interval"] = interval
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}/market_chart", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}/market_chart", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -217,11 +247,16 @@ def market_chart_range(
         "from": str(datetime.timestamp(from_date)),
         "to": str(datetime.timestamp(to_date)),
     }
-    r = httpx.get(
-        f"{API_BASE_URL}/coins/{id}/market_chart/range",
-        params=params,
-    ).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(
+            f"{API_BASE_URL}/coins/{id}/market_chart/range",
+            params=params,
+        )
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -238,8 +273,13 @@ def ohlc(
     Get coin's OHLC
     """
     params = {"vs_currency": vs_currency, "days": days}
-    r = httpx.get(f"{API_BASE_URL}/coins/{id}/ohlc", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/{id}/ohlc", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
