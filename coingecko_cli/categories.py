@@ -24,8 +24,13 @@ def list():
     """
     List all categories
     """
-    r = httpx.get(f"{API_BASE_URL}/coins/categories/list").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/categories/list")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -38,8 +43,13 @@ def market_data(
     List all categories with market data
     """
     params = {"order": order.value}
-    r = httpx.get(f"{API_BASE_URL}/coins/categories", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/coins/categories", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
