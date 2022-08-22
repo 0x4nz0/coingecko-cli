@@ -40,8 +40,13 @@ def ping():
     """
     Check API server status
     """
-    r = httpx.get(f"{API_BASE_URL}/ping").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/ping")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -49,8 +54,13 @@ def asset_platforms():
     """
     List all asset platforms (Blockchain networks)
     """
-    r = httpx.get(f"{API_BASE_URL}/asset_platforms").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/asset_platforms")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -58,8 +68,13 @@ def exchange_rates():
     """
     Get BTC-to-Currency exchange rates
     """
-    r = httpx.get(f"{API_BASE_URL}/exchange_rates").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchange_rates")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -69,8 +84,13 @@ def search(query: str = Argument(..., help="Search string")):
     by largest Market Cap first
     """
     params = {"query": query}
-    r = httpx.get(f"{API_BASE_URL}/search", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/search", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -79,8 +99,13 @@ def trending():
     Top-7 trending coins on CoinGecko as searched by users in the last 24 hours
     (Ordered by most popular first)
     """
-    r = httpx.get(f"{API_BASE_URL}/search/trending").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/search/trending")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -91,8 +116,13 @@ def companies_public_treasury(
     Get public companies bitcoin or ethereum holdings
     (Ordered by total holdings descending)
     """
-    r = httpx.get(f"{API_BASE_URL}/companies/public_treasury/{coin_id}").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/companies/public_treasury/{coin_id}")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
