@@ -31,8 +31,13 @@ def list(
     List all exchanges (Active with trading volumes)
     """
     params = {"per_page": str(per_page), "page": str(page)}
-    r = httpx.get(f"{API_BASE_URL}/exchanges", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchanges", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -40,8 +45,13 @@ def markets_list():
     """
     List all supported markets id and name (no pagination required)
     """
-    r = httpx.get(f"{API_BASE_URL}/exchanges/list").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchanges/list")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -49,8 +59,13 @@ def volume(id: str = Argument(..., help="Pass the exchange id (eg. binance)")):
     """
     Get exchange volume in BTC and tickers
     """
-    r = httpx.get(f"{API_BASE_URL}/exchanges/{id}").json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchanges/{id}")
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -80,8 +95,13 @@ def tickers(
         params["coin_ids"] = coin_ids
     if page is not None:
         params["page"] = str(page)
-    r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/tickers", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/tickers", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 @app.command()
@@ -95,8 +115,13 @@ def volume_chart(
     Get volume_chart data for a given exchange
     """
     params = {"days": str(days)}
-    r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/volume_chart", params=params).json()
-    console.print_json(data=r)
+    try:
+        r = httpx.get(f"{API_BASE_URL}/exchanges/{id}/volume_chart", params=params)
+        r.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        console.print(f"[bold red]ERROR[/]: {exc}")
+    else:
+        console.print_json(data=r.json())
 
 
 if __name__ == "__main__":
