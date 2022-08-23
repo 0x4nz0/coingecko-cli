@@ -5,6 +5,16 @@ CoinGecko CLI
 CLI application `Powered by CoinGecko <https://www.coingecko.com/>`_.
 
 -----
+Usage
+-----
+
+::
+
+  coingecko-cli --help
+
+  coingecko-cli COMMAND --help
+
+-----
 Endpoints included
 -----
 
